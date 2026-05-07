@@ -13,9 +13,6 @@ dist/
 
 # Project
 .env
-results/*.csv
-results/*.md
-test_audio/*.wav
 models/
 
 # Editors
