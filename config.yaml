@@ -1,0 +1,30 @@
+wake_word:
+  model: hey_jarvis
+  threshold: 0.5
+
+vad:
+  silence_ms: 600
+  max_recording_sec: 15
+
+audio:
+  sample_rate: 16000
+  channels: 1
+
+stt:
+  default: fw_base   # one of: fw_base, fw_small
+
+llm:
+  default: groq_8b   # one of: groq_8b, gemma4_local, gemma4_cloud
+  max_tokens: 150
+  temperature: 0.6
+  ollama_local_host: http://localhost:11434
+  ollama_cloud_host: https://ollama.com
+  gemma4_local_model: gemma4:e4b
+  gemma4_cloud_model: gemma4:31b-cloud
+  groq_model: llama-3.1-8b-instant
+
+tts:
+  default: piper     # one of: piper, edge_tts
+  piper_voice: hi_IN-pratham-medium
+  piper_voice_dir: models/piper
+  edge_voice: hi-IN-SwaraNeural

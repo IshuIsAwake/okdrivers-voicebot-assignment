@@ -1,0 +1,15 @@
+flowchart LR
+    Mic([Microphone]) --> WW[Wake Word<br/>openWakeWord<br/>'hey jarvis']
+    WW -->|detected<br/>t_wake| VAD[Silero VAD<br/>silence > 600ms<br/>or 15s cap]
+    VAD -->|t_end_of_speech| STT[STT<br/>faster-whisper<br/>base or small]
+    STT -->|t_stt_done<br/>transcript| LLM[LLM streaming<br/>Groq · Local Ollama · Cloud Ollama]
+    LLM -->|tokens<br/>t_llm_first_token| Chunker[Sentence chunker<br/>regex /[.!?।]+/]
+    Chunker -->|sentences<br/>t_first_sentence_to_tts| TTSQ[(TTS input queue)]
+    TTSQ --> TTSW[TTS worker thread<br/>Piper or edge-tts]
+    TTSW -->|audio<br/>t_first_audio_ready| AOQ[(Audio output queue)]
+    AOQ --> PB[Playback worker]
+    PB -->|t_first_audio_played<br/>= E2E latency anchor| Speaker([Speaker])
+    PB -->|t_playback_done| Done([Turn complete])
+
+    classDef metric fill:#fef3c7,stroke:#92400e,stroke-width:1px;
+    class WW,VAD,STT,LLM,Chunker,TTSW,PB metric;
